@@ -1,9 +1,13 @@
-// JavaScript for NoTrace with Typing Indicator
+// JavaScript for NoTrace with Enhanced Features
 
 // DOM Elements
 const messageInput = document.querySelector('input');
 const sendButton = document.querySelector('button');
 const chatInterface = document.querySelector('.chat-interface');
+
+// Sounds
+const sendSound = new Audio('send.mp3'); // Add a sound file named 'send.mp3'
+const receiveSound = new Audio('receive.mp3'); // Add a sound file named 'receive.mp3'
 
 // Prompt the user for their handle
 let userHandle = localStorage.getItem('userHandle');
@@ -54,23 +58,26 @@ function appendMessage(content, sender = 'sent', handle = userHandle) {
     // Scroll to the bottom of the chat
     chatInterface.scrollTop = chatInterface.scrollHeight;
 
+    // Play appropriate sound
+    if (sender === 'sent') {
+        sendSound.play();
+    } else {
+        receiveSound.play();
+    }
+
     // Save the message to local storage
     saveMessage(content, sender, handle);
-}
-
-// Function to show typing indicator
-function showTypingIndicator() {
-    const typingDiv = document.createElement('div');
-    typingDiv.classList.add('message', 'received', 'typing');
-    typingDiv.textContent = 'Typing...';
-    chatInterface.appendChild(typingDiv);
-    chatInterface.scrollTop = chatInterface.scrollHeight;
-    return typingDiv;
 }
 
 // Event listener for the send button
 sendButton.addEventListener('click', () => {
     const message = messageInput.value.trim();
+
+    if (message.length > 250) {
+        alert('Message too long! Limit: 250 characters.');
+        return;
+    }
+
     if (message) {
         appendMessage(message, 'sent', userHandle); // Add message as sent
         messageInput.value = ''; // Clear the input field
@@ -78,12 +85,8 @@ sendButton.addEventListener('click', () => {
         // Disable send button temporarily
         sendButton.disabled = true;
 
-        // Show typing indicator
-        const typingIndicator = showTypingIndicator();
-
         // Simulate a response
         setTimeout(() => {
-            chatInterface.removeChild(typingIndicator); // Remove typing indicator
             appendMessage(`Response to: "${message}"`, 'received');
             sendButton.disabled = false; // Re-enable send button
         }, 2000);
