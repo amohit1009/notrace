@@ -69,8 +69,8 @@ function appendMessage(content, sender = 'sent', handle = userHandle) {
     saveMessage(content, sender, handle);
 }
 
-// Event listener for the send button
-sendButton.addEventListener('click', () => {
+// Function to handle sending a message
+function handleSendMessage() {
     const message = messageInput.value.trim();
 
     if (message.length > 250) {
@@ -90,5 +90,16 @@ sendButton.addEventListener('click', () => {
             appendMessage(`Response to: "${message}"`, 'received');
             sendButton.disabled = false; // Re-enable send button
         }, 2000);
+    }
+}
+
+// Event listener for the send button
+sendButton.addEventListener('click', handleSendMessage);
+
+// Event listener for pressing Enter in the input field
+messageInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        handleSendMessage();
+        e.preventDefault(); // Prevent default behavior of Enter key
     }
 });
