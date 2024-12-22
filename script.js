@@ -1,4 +1,4 @@
-// JavaScript for NoTrace with Enhanced Features and Emoji Support
+// JavaScript for NoTrace with Real-Time Messaging
 
 // DOM Elements
 const messageInput = document.querySelector('input');
@@ -9,47 +9,16 @@ const chatInterface = document.querySelector('.chat-interface');
 const sendSound = new Audio('send.mp3'); // Add a sound file named 'send.mp3'
 const receiveSound = new Audio('receive.mp3'); // Add a sound file named 'receive.mp3'
 
-// Emoji Picker
-const emojiButton = document.createElement('button');
-emojiButton.textContent = '😀'; // Emoji button icon
-emojiButton.style.margin = '5px';
-emojiButton.style.padding = '8px';
-emojiButton.style.border = 'none';
-emojiButton.style.borderRadius = '5px';
-emojiButton.style.cursor = 'pointer';
-document.body.insertBefore(emojiButton, chatInterface);
+// WebSocket connection
+const socket = new WebSocket('ws://localhost:8080'); // Replace 'localhost' with your server address when hosted
 
-// Emoji Picker Functionality
-const emojiPicker = [
-    '😀', '😂', '❤️', '👍', '🎉', '😢', '😎', '🙌', '🔥', '🙏', '🤔', '🎂'
-];
+socket.addEventListener('open', () => {
+    console.log('Connected to WebSocket server');
+});
 
-emojiButton.addEventListener('click', () => {
-    const emojiContainer = document.createElement('div');
-    emojiContainer.style.position = 'absolute';
-    emojiContainer.style.bottom = '60px';
-    emojiContainer.style.left = '10px';
-    emojiContainer.style.backgroundColor = '#f0f0f0';
-    emojiContainer.style.border = '1px solid #ccc';
-    emojiContainer.style.padding = '10px';
-    emojiContainer.style.borderRadius = '5px';
-    emojiContainer.style.display = 'grid';
-    emojiContainer.style.gridTemplateColumns = 'repeat(6, 1fr)';
-    emojiContainer.style.gap = '5px';
-
-    emojiPicker.forEach((emoji) => {
-        const emojiItem = document.createElement('span');
-        emojiItem.textContent = emoji;
-        emojiItem.style.cursor = 'pointer';
-        emojiItem.style.fontSize = '20px';
-        emojiItem.addEventListener('click', () => {
-            messageInput.value += emoji;
-            document.body.removeChild(emojiContainer); // Close picker after selection
-        });
-        emojiContainer.appendChild(emojiItem);
-    });
-
-    document.body.appendChild(emojiContainer);
+socket.addEventListener('message', (event) => {
+    const data = JSON.parse(event.data);
+    appendMessage(data.content, 'received', data.handle); // Display received message
 });
 
 // Prompt the user for their handle
@@ -122,17 +91,14 @@ function handleSendMessage() {
     }
 
     if (message) {
-        appendMessage(message, 'sent', userHandle); // Add message as sent
+        const payload = {
+            content: message,
+            sender: 'sent',
+            handle: userHandle,
+        };
+        socket.send(JSON.stringify(payload)); // Send message to WebSocket server
+        appendMessage(message, 'sent', userHandle); // Display sent message locally
         messageInput.value = ''; // Clear the input field
-
-        // Disable send button temporarily
-        sendButton.disabled = true;
-
-        // Simulate a response
-        setTimeout(() => {
-            appendMessage(`Response to: "${message}"`, 'received');
-            sendButton.disabled = false; // Re-enable send button
-        }, 2000);
     }
 }
 
