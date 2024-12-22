@@ -1,13 +1,48 @@
-// JavaScript for NoTrace with Enhanced Features
+// JavaScript for NoTrace with Enhanced Features and Theme Toggle
 
 // DOM Elements
 const messageInput = document.querySelector('input');
 const sendButton = document.querySelector('button');
 const chatInterface = document.querySelector('.chat-interface');
+const body = document.body;
 
 // Sounds
 const sendSound = new Audio('send.mp3'); // Add a sound file named 'send.mp3'
 const receiveSound = new Audio('receive.mp3'); // Add a sound file named 'receive.mp3'
+
+// Theme Toggle
+let currentTheme = localStorage.getItem('theme') || 'dark';
+applyTheme(currentTheme);
+
+// Create and append a theme toggle button
+const themeToggleButton = document.createElement('button');
+themeToggleButton.textContent = currentTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+themeToggleButton.style.margin = '10px';
+themeToggleButton.style.padding = '8px';
+themeToggleButton.style.border = 'none';
+themeToggleButton.style.borderRadius = '5px';
+themeToggleButton.style.backgroundColor = '#0dcaf0';
+themeToggleButton.style.color = 'black';
+themeToggleButton.style.cursor = 'pointer';
+document.body.prepend(themeToggleButton);
+
+themeToggleButton.addEventListener('click', () => {
+    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', currentTheme);
+    applyTheme(currentTheme);
+    themeToggleButton.textContent = currentTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+});
+
+// Apply the selected theme
+function applyTheme(theme) {
+    if (theme === 'dark') {
+        body.style.backgroundColor = '#1a1a1a';
+        body.style.color = 'white';
+    } else {
+        body.style.backgroundColor = '#ffffff';
+        body.style.color = 'black';
+    }
+}
 
 // Prompt the user for their handle
 let userHandle = localStorage.getItem('userHandle');
