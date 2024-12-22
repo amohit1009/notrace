@@ -1,13 +1,33 @@
-!DOCTYPE html
-html lang=en
-head
-    meta charset=UTF-8
-    meta name=viewport content=width=device-width, initial-scale=1.0
-    titleNoTracetitle
-    link rel=stylesheet href=style.css
-head
-body
-    h1Welcome to NoTraceh1
-    pYour private and secure messaging app!p
-body
-html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoTrace</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>NoTrace</h1>
+            <p class="tagline">Secure Chats, Invisible Footprints</p>
+        </header>
+        <main class="chat-interface">
+            <div class="message received">
+                <span class="handle">~user2</span>
+                <p>Hello! How's it going?</p>
+                <span class="timestamp">10:45 AM</span>
+            </div>
+            <div class="message sent">
+                <span class="handle">~mohit</span>
+                <p>All good! Working on our project.</p>
+                <span class="timestamp">10:46 AM</span>
+            </div>
+        </main>
+        <footer class="input-bar">
+            <input type="text" placeholder="Type your message here...">
+            <button>Send</button>
+        </footer>
+    </div>
+</body>
+</html>
