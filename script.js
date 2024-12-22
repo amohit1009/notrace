@@ -1,19 +1,30 @@
-// JavaScript to handle basic interactivity for NoTrace
+// JavaScript for NoTrace with User Handles
 
 // DOM Elements
 const messageInput = document.querySelector('input');
 const sendButton = document.querySelector('button');
 const chatInterface = document.querySelector('.chat-interface');
 
+// Prompt the user for their handle
+let userHandle = localStorage.getItem('userHandle');
+if (!userHandle) {
+    userHandle = prompt('Enter your unique handle (e.g., ~mohit):');
+    if (userHandle) {
+        localStorage.setItem('userHandle', userHandle);
+    } else {
+        userHandle = '~guest';
+    }
+}
+
 // Function to append messages to the chat interface
-function appendMessage(content, sender = 'sent') {
+function appendMessage(content, sender = 'sent', handle = userHandle) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message', sender);
 
     // Add handle and timestamp
     const handleSpan = document.createElement('span');
     handleSpan.classList.add('handle');
-    handleSpan.textContent = sender === 'sent' ? '~mohit' : '~user2';
+    handleSpan.textContent = sender === 'sent' ? handle : '~user2';
     
     const timestampSpan = document.createElement('span');
     timestampSpan.classList.add('timestamp');
@@ -37,12 +48,12 @@ function appendMessage(content, sender = 'sent') {
 sendButton.addEventListener('click', () => {
     const message = messageInput.value.trim();
     if (message) {
-        appendMessage(message, 'sent'); // Add message as sent
+        appendMessage(message, 'sent', userHandle); // Add message as sent
         messageInput.value = ''; // Clear the input field
+
+        // Simulate a response
+        setTimeout(() => {
+            appendMessage(`Response to: "${message}"`, 'received');
+        }, 2000);
     }
 });
-
-// Mocking received messages (for demonstration purposes)
-setTimeout(() => {
-    appendMessage("This is a response from ~user2!", 'received');
-}, 2000);
