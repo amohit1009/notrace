@@ -1,48 +1,56 @@
-// JavaScript for NoTrace with Enhanced Features and Theme Toggle
+// JavaScript for NoTrace with Enhanced Features and Emoji Support
 
 // DOM Elements
 const messageInput = document.querySelector('input');
 const sendButton = document.querySelector('button');
 const chatInterface = document.querySelector('.chat-interface');
-const body = document.body;
 
 // Sounds
 const sendSound = new Audio('send.mp3'); // Add a sound file named 'send.mp3'
 const receiveSound = new Audio('receive.mp3'); // Add a sound file named 'receive.mp3'
 
-// Theme Toggle
-let currentTheme = localStorage.getItem('theme') || 'dark';
-applyTheme(currentTheme);
+// Emoji Picker
+const emojiButton = document.createElement('button');
+emojiButton.textContent = '😀'; // Emoji button icon
+emojiButton.style.margin = '5px';
+emojiButton.style.padding = '8px';
+emojiButton.style.border = 'none';
+emojiButton.style.borderRadius = '5px';
+emojiButton.style.cursor = 'pointer';
+document.body.insertBefore(emojiButton, chatInterface);
 
-// Create and append a theme toggle button
-const themeToggleButton = document.createElement('button');
-themeToggleButton.textContent = currentTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-themeToggleButton.style.margin = '10px';
-themeToggleButton.style.padding = '8px';
-themeToggleButton.style.border = 'none';
-themeToggleButton.style.borderRadius = '5px';
-themeToggleButton.style.backgroundColor = '#0dcaf0';
-themeToggleButton.style.color = 'black';
-themeToggleButton.style.cursor = 'pointer';
-document.body.prepend(themeToggleButton);
+// Emoji Picker Functionality
+const emojiPicker = [
+    '😀', '😂', '❤️', '👍', '🎉', '😢', '😎', '🙌', '🔥', '🙏', '🤔', '🎂'
+];
 
-themeToggleButton.addEventListener('click', () => {
-    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('theme', currentTheme);
-    applyTheme(currentTheme);
-    themeToggleButton.textContent = currentTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+emojiButton.addEventListener('click', () => {
+    const emojiContainer = document.createElement('div');
+    emojiContainer.style.position = 'absolute';
+    emojiContainer.style.bottom = '60px';
+    emojiContainer.style.left = '10px';
+    emojiContainer.style.backgroundColor = '#f0f0f0';
+    emojiContainer.style.border = '1px solid #ccc';
+    emojiContainer.style.padding = '10px';
+    emojiContainer.style.borderRadius = '5px';
+    emojiContainer.style.display = 'grid';
+    emojiContainer.style.gridTemplateColumns = 'repeat(6, 1fr)';
+    emojiContainer.style.gap = '5px';
+
+    emojiPicker.forEach((emoji) => {
+        const emojiItem = document.createElement('span');
+        emojiItem.textContent = emoji;
+        emojiItem.style.cursor = 'pointer';
+        emojiItem.style.fontSize = '20px';
+        emojiItem.addEventListener('click', () => {
+            messageInput.value += emoji;
+            document.body.removeChild(emojiContainer); // Close picker after selection
+        });
+        emojiContainer.appendChild(emojiItem);
+    });
+
+    document.body.appendChild(emojiContainer);
 });
-
-// Apply the selected theme
-function applyTheme(theme) {
-    if (theme === 'dark') {
-        body.style.backgroundColor = '#1a1a1a';
-        body.style.color = 'white';
-    } else {
-        body.style.backgroundColor = '#ffffff';
-        body.style.color = 'black';
-    }
-}
 
 // Prompt the user for their handle
 let userHandle = localStorage.getItem('userHandle');
