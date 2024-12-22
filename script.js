@@ -1,4 +1,4 @@
-// JavaScript for NoTrace with User Handles
+// JavaScript for NoTrace with Persistent Messages
 
 // DOM Elements
 const messageInput = document.querySelector('input');
@@ -14,6 +14,17 @@ if (!userHandle) {
     } else {
         userHandle = '~guest';
     }
+}
+
+// Load messages from local storage
+const savedMessages = JSON.parse(localStorage.getItem('messages')) || [];
+savedMessages.forEach(msg => appendMessage(msg.content, msg.sender, msg.handle));
+
+// Function to save messages to local storage
+function saveMessage(content, sender, handle) {
+    const newMessage = { content, sender, handle };
+    savedMessages.push(newMessage);
+    localStorage.setItem('messages', JSON.stringify(savedMessages));
 }
 
 // Function to append messages to the chat interface
@@ -42,6 +53,9 @@ function appendMessage(content, sender = 'sent', handle = userHandle) {
 
     // Scroll to the bottom of the chat
     chatInterface.scrollTop = chatInterface.scrollHeight;
+
+    // Save the message to local storage
+    saveMessage(content, sender, handle);
 }
 
 // Event listener for the send button
