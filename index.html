@@ -7,28 +7,31 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <header class="app-header">
+    <!-- Authentication Container -->
+    <div class="auth-container" id="auth-container">
+        <h2 id="auth-title">Login</h2>
+        <input type="text" id="handle" placeholder="Enter your handle">
+        <input type="password" id="password" placeholder="Enter your password">
+        <button id="auth-button">Login</button>
+        <p id="toggle-auth">
+            Don't have an account? <a href="#" id="toggle-link">Register here</a>
+        </p>
+    </div>
+
+    <!-- Chat Container -->
+    <div class="chat-container" id="chat-container" style="display: none;">
+        <header>
             <h1>NoTrace</h1>
-            <p class="tagline">Secure Chats, Invisible Footprints</p>
         </header>
         <main class="chat-interface">
-            <div class="message received">
-                <span class="handle">~user2</span>
-                <p>Hello! How's it going?</p>
-                <span class="timestamp">10:45 AM</span>
-            </div>
-            <div class="message sent">
-                <span class="handle">~mohit</span>
-                <p>All good! Working on our project.</p>
-                <span class="timestamp">10:46 AM</span>
-            </div>
+            <!-- Chat messages will appear here -->
         </main>
-        <footer class="input-bar">
+        <footer>
             <input type="text" placeholder="Type your message here...">
             <button>Send</button>
         </footer>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
