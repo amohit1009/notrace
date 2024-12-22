@@ -1,8 +1,120 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #1a1a1a;
-    color: white;
-    text-align: center;
     margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #121212, #1a1a1a);
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 400px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+}
+
+/* Header */
+.app-header {
+    background-color: #292929;
+    text-align: center;
     padding: 20px;
+    border-bottom: 1px solid #444;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #0dcaf0;
+}
+
+.app-header .tagline {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+/* Chat Interface */
+.chat-interface {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.message .handle {
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 3px;
+    display: block;
+}
+
+.message .timestamp {
+    font-size: 0.7rem;
+    color: #555;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.message.received {
+    background-color: #333;
+    align-self: flex-start;
+}
+
+.message.sent {
+    background-color: #0dcaf0;
+    color: black;
+    align-self: flex-end;
+}
+
+/* Input Bar */
+.input-bar {
+    display: flex;
+    padding: 10px;
+    background-color: #292929;
+    border-top: 1px solid #444;
+}
+
+.input-bar input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    background-color: #444;
+    color: white;
+}
+
+.input-bar button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0dcaf0;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.input-bar button:hover {
+    background-color: #0bb8e0;
 }
